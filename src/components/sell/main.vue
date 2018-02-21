@@ -3,7 +3,7 @@
 
     <v-header/>
 
-    <div class="tab">
+    <div class="tab border-1px">
 
       <router-link class="tab-item" to="/goods">商品</router-link>
       <router-link class="tab-item" to="/ratings">评论</router-link>
@@ -27,6 +27,8 @@
 </script>
 
 <style scoped lang="less">
+  @import "../../../static/css/mixin.less";
+
   #app {
 
     .tab {
@@ -34,7 +36,7 @@
       width         : 100%;
       height        : 40px;
       line-height   : 40px;
-      border-bottom : 1px solid rgba(7, 17, 27, 0.1);
+      .border-1px(rgba(7, 17, 27, 0.1));
 
       .tab-item {
         flex       : 1;
