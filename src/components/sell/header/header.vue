@@ -6,7 +6,13 @@
 
 <script>
 	export default {
-		name: "header"
+		name: "header",
+    data: {},
+    created() {
+		  this.$http.get('/api/seller').then((res) => {
+
+      })
+    }
 	}
 </script>
 
