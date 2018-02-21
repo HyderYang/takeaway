@@ -113,6 +113,7 @@
   .header {
     color      : #fff;
     position   : relative;
+    overflow : hidden;
     background : rgba(7, 17, 27, 0.5);
 
     .content-wrapper {
@@ -241,7 +242,7 @@
         .bg-image('/static/images/sell/header/bulletin');
         background-size   : 22px 12px;
         background-repeat : no-repeat;
-        margin-top        : 7px;
+        margin-top        : 8px;
       }
 
       .bulletin-text {
