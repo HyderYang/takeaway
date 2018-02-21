@@ -2,7 +2,7 @@
 
 > Vue实现 外卖手机端练习项目
 
-## 安装方法
+##  安装方法
 
 ``` bash
 # install dependencies
