@@ -20,14 +20,14 @@
           <span class="text">{{ seller.supports[0].description }}</span>
         </div>
 
-        <div v-if="seller.supports" class="support-count">
+        <div v-if="seller.supports" class="support-count" @click="showDetail">
           <span class="count">{{ seller.supports.length }}个</span>
           <i class="icon-keyboard_arrow_right"></i>
         </div>
       </div>
     </div>
 
-    <div class="bulletin-wrapper">
+    <div class="bulletin-wrapper" @click="showDetail">
       <span class="bulletin-title"></span>
       <span class="bulletin-text">{{ seller.bulletin }}</span>
       <i class="icon-keyboard_arrow_right"></i>
@@ -36,15 +36,20 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
+
+    <r-detail :seller="seller" v-show="detailHasShow"></r-detail>
   </div>
 </template>
 
 <script>
+  import detail from './header_detail'
+
   export default {
     name: "header",
     data() {
       return {
-        seller: {}
+        seller: {},
+        detailHasShow: false
       }
     },
     created() {
@@ -103,6 +108,14 @@
       });
 
       this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
+    },
+    components: {
+      'r-detail': detail
+    },
+    methods: {
+      showDetail() {
+        this.detailHasShow = true
+      }
     }
   }
 </script>
