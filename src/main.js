@@ -8,6 +8,7 @@ import Axios from 'axios'
 // CSS 引入
 import '../static/css/base.less'
 import '../static/css/icon.less'
+import '../static/css/mixin.less'
 
 Vue.config.productionTip = false
 

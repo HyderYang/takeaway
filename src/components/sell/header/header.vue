@@ -37,7 +37,9 @@
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
 
-    <r-detail :seller="seller" v-show="detailHasShow"></r-detail>
+    <transition name="fade">
+      <r-detail :seller="seller" v-show="detailHasShow" @hideDetail="hideDetail"></r-detail>
+    </transition>
   </div>
 </template>
 
@@ -115,6 +117,9 @@
     methods: {
       showDetail() {
         this.detailHasShow = true
+      },
+      hideDetail(flag) {
+        this.detailHasShow = flag
       }
     }
   }
@@ -123,10 +128,20 @@
 <style scoped lang="less">
   @import "../../../../static/css/mixin.less";
 
+  .fade-enter-active, .fade-leave-active {
+    background : rgba(7, 17, 27, 0.8);
+    transition : opacity .5s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    background : rgba(7, 17, 27, 0);
+    opacity    : 0;
+  }
+
   .header {
     color      : #fff;
     position   : relative;
-    overflow : hidden;
+    overflow   : hidden;
     background : rgba(7, 17, 27, 0.5);
 
     .content-wrapper {
