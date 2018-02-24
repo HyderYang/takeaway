@@ -1,13 +1,18 @@
 <template>
-  <div>
-    <r-goods-menu :goods="goods"></r-goods-menu>
+  <div class="goods">
+    <div class="menu-wrapper">
+      <r-goods-menu :goods="goods"></r-goods-menu>
+    </div>
 
-
+    <div class="food-wrapper">
+      <r-goods-food :goods="goods"></r-goods-food>
+    </div>
   </div>
 </template>
 
 <script>
   import menu from './goods-menu'
+  import food from './goods-food'
 
   export default {
     name: "goods",
@@ -22,7 +27,8 @@
       }
     },
     components: {
-      'r-goods-menu': menu
+      'r-goods-menu': menu,
+      'r-goods-food': food
     },
     created() {
       this.$http.get('/api/goods').then((res) => {
@@ -1110,5 +1116,22 @@
 </script>
 
 <style scoped lang="less">
+  .goods {
+    position : absolute;
+    width    : 100%;
+    top      : 174px;
+    bottom   : 46px;
+    display  : flex;
+    overflow : hidden;
 
+    .menu-wrapper {
+      flex       : 0 0 80px;
+      width      : 20px;
+      background : #f3f5f7;
+    }
+
+    .food-wrapper {
+      flex : 1;
+    }
+  }
 </style>
