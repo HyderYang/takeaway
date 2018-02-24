@@ -1163,12 +1163,12 @@
         let height = 0;
         //记录初始高度
         this.listHeight.push(height);
-        // console.log(foodList);
         //循环遍历
         for (let i = 0; i < foodList.length; i++) {
           let item = foodList[i];
+          // item.clientHeight 不包括上一个 item 最后的 margin-bottom值
+          // 这里margin-bottom值为18 所以加上18 解决滑动时候 菜单和侧边栏不匹配问题
           height += item.clientHeight + 18;
-          // console.log(item.clientHeight);
           this.listHeight.push(height);
         }
       }
