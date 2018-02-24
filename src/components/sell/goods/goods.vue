@@ -7,12 +7,15 @@
     <div class="food-wrapper" ref="foodWrapper">
       <r-goods-food :goods="goods"></r-goods-food>
     </div>
+
+    <r-goods-cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></r-goods-cart>
   </div>
 </template>
 
 <script>
   import menu from './goods-menu'
   import food from './goods-food'
+  import cart from './goods-cart'
   import BScroll from 'better-scroll'
 
   export default {
@@ -31,7 +34,8 @@
     },
     components: {
       'r-goods-menu': menu,
-      'r-goods-food': food
+      'r-goods-food': food,
+      'r-goods-cart': cart
     },
     created() {
       this.$http.get('/api/goods').then((res) => {
@@ -1142,6 +1146,7 @@
         let menuDom = foodList[index];
         this.foodScroll.scrollToElement(menuDom, 300);
       },
+
       //初始化滚动库
       initScroll() {
         this.menuScroll = new BScroll(this.$refs.menuWrapper, {
@@ -1155,6 +1160,7 @@
           this.scrollY = Math.abs(Math.round(pos.y))
         })
       },
+
       //计算菜谱栏每一大项高度
       calculateHeight() {
         //获取商品列表
