@@ -1,10 +1,10 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
-      <r-goods-menu :goods="goods"></r-goods-menu>
+    <div class="menu-wrapper" ref="menuWrapper">
+      <r-goods-menu :goods="goods" :currentIndex="currentIndex" @clickMenuEvent="selectMenu"></r-goods-menu>
     </div>
 
-    <div class="food-wrapper">
+    <div class="food-wrapper" ref="foodWrapper">
       <r-goods-food :goods="goods"></r-goods-food>
     </div>
   </div>
@@ -13,6 +13,7 @@
 <script>
   import menu from './goods-menu'
   import food from './goods-food'
+  import BScroll from 'better-scroll'
 
   export default {
     name: "goods",
@@ -23,7 +24,9 @@
     },
     data() {
       return {
-        goods: []
+        goods: [],
+        listHeight: [],
+        scrollY: 0
       }
     },
     components: {
@@ -32,7 +35,7 @@
     },
     created() {
       this.$http.get('/api/goods').then((res) => {
-        console.log(res)
+        console.log(res);
       }).catch((res) => {
         this.goods = [
           {
@@ -1109,8 +1112,66 @@
               }
             ]
           }
-        ]
+        ];
       });
+      this.$nextTick(function () {
+        this.initScroll();
+        setTimeout(() => {
+          this.calculateHeight();
+        }, 15);
+      })
+    },
+    computed: {
+      //计算属性 计算当前菜谱是否滚动到对应侧边栏的高度区间
+      currentIndex() {
+        // console.log(this.scrollY)
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            return i;
+          }
+        }
+        return 0;
+      }
+    },
+    methods: {
+      //侧边栏点选滚动相应菜谱
+      selectMenu(index){
+        let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
+        let menuDom = foodList[index];
+        this.foodScroll.scrollToElement(menuDom, 300);
+      },
+      //初始化滚动库
+      initScroll() {
+        this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        });
+        this.foodScroll = new BScroll(this.$refs.foodWrapper, {
+          probeType: 3
+        });
+        //根据滚动计算当前Y轴的值
+        this.foodScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y))
+        })
+      },
+      //计算菜谱栏每一大项高度
+      calculateHeight() {
+        //获取商品列表
+        let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list-hook');
+        //初始高度
+        let height = 0;
+        //记录初始高度
+        this.listHeight.push(height);
+        // console.log(foodList);
+        //循环遍历
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i];
+          height += item.clientHeight + 18;
+          // console.log(item.clientHeight);
+          this.listHeight.push(height);
+        }
+      }
     }
   }
 </script>

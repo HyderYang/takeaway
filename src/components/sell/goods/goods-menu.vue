@@ -1,7 +1,9 @@
 <template>
   <div>
     <ul>
-      <li v-for="item in goods" class="menu-item">
+      <li v-for="(item, index) in goods" class="menu-item"
+          :class="{'current': currentIndex === index}"
+          @click="selectMenu(index)">
         <span class="text border-1px">
           <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
           {{ item.name }}
@@ -27,10 +29,18 @@
     props: {
       goods: {
         type: Array
+      },
+      currentIndex: {
+        type: Number
       }
     },
     created() {
       this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
+    },
+    methods: {
+      selectMenu(index) {
+        this.$emit('clickMenuEvent', index)
+      }
     }
   }
 </script>
@@ -44,6 +54,21 @@
     width       : 56px;
     line-height : 14px;
     padding     : 0 12px;
+
+    &.current {
+      position    : relative;
+      margin-top  : -1px;
+      z-index     : 10;
+      background  : #fff;
+      font-weight : 700;
+
+      .text {
+        &:after {
+          display       : none;
+          margin-bottom : 0;
+        }
+      }
+    }
 
     .icon {
       display           : inline-block;

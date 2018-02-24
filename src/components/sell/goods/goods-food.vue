@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ul>
-      <li v-for="item in goods" class="food-list">
+    <ul ref="foodWrapper">
+      <li v-for="item in goods" class="food-list food-list-hook">
         <h1 class="title">{{ item.name }}</h1>
 
         <ul>
@@ -16,8 +16,8 @@
               <p class="desc">{{ food.description }}</p>
 
               <div class="extra">
-                <span>月售 {{ food.sellCount }} 份</span>
-                <span>好评率 {{food.rating}}</span>
+                <span>月售{{ food.sellCount }}份</span>
+                <span>好评率{{food.rating}}%</span>
               </div>
 
               <div class="price">
@@ -45,10 +45,18 @@
    */
   export default {
     name: "goods-food",
+    data() {
+      return {
+      }
+    },
     props: {
       goods: {
         type: Array
       }
+    },
+    created() {
+    },
+    methods: {
     }
   }
 </script>
@@ -102,11 +110,12 @@
       }
 
       .desc {
+        line-height   : 12px;
         margin-bottom : 8px;
       }
 
       .extra {
-        &.count {
+        .count {
           margin-right : 12px;
         }
       }
