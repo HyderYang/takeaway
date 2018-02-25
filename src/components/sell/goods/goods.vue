@@ -8,7 +8,7 @@
       <r-goods-food :goods="goods"></r-goods-food>
     </div>
 
-    <r-goods-cart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></r-goods-cart>
+    <r-goods-cart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></r-goods-cart>
   </div>
 </template>
 
@@ -1137,6 +1137,18 @@
           }
         }
         return 0;
+      },
+      //计算属性 计算当前用户选择的商品与数量
+      selectFoods() {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          })
+        });
+        return foods;
       }
     },
     methods: {
@@ -1153,6 +1165,7 @@
           click: true
         });
         this.foodScroll = new BScroll(this.$refs.foodWrapper, {
+          click: true,
           probeType: 3
         });
         //根据滚动计算当前Y轴的值

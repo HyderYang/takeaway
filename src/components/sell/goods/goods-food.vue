@@ -24,6 +24,10 @@
                 <span class="now">¥{{ food.price }}</span>
                 <span class="old" v-show="food.oldPrice">¥{{ food.oldPrice }}</span>
               </div>
+
+              <div class="cartcontrol-wrapper">
+                <r-cartcontrol :food="food"></r-cartcontrol>
+              </div>
             </div>
           </li>
         </ul>
@@ -43,11 +47,12 @@
    *
    * 时间   :
    */
+  import cartcontrol from '../../common/cartcontrol/cartcontrol'
+
   export default {
     name: "goods-food",
     data() {
-      return {
-      }
+      return {}
     },
     props: {
       goods: {
@@ -56,7 +61,9 @@
     },
     created() {
     },
-    methods: {
+    methods: {},
+    components: {
+      'r-cartcontrol': cartcontrol
     }
   }
 </script>
@@ -135,6 +142,12 @@
           font-size       : 10px;
           color           : rgb(147, 153, 159);
         }
+      }
+
+      .cartcontrol-wrapper {
+        position : absolute;
+        right    : 0;
+        bottom   : -5px;
       }
     }
   }
