@@ -5,10 +5,13 @@
     </div>
 
     <div class="food-wrapper" ref="foodWrapper">
-      <r-goods-food :goods="goods"></r-goods-food>
+      <r-goods-food :goods="goods" @add-cart="addCart"></r-goods-food>
     </div>
 
-    <r-goods-cart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></r-goods-cart>
+    <r-goods-cart ref="cart"
+      :selectFoods="selectFoods"
+      :deliveryPrice="seller.deliveryPrice"
+      :minPrice="seller.minPrice"></r-goods-cart>
   </div>
 </template>
 
@@ -29,7 +32,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        target: null
       }
     },
     components: {
@@ -38,6 +42,7 @@
       'r-goods-cart': cart
     },
     created() {
+      //ajax 获取数据
       this.$http.get('/api/goods').then((res) => {
         console.log(res);
       }).catch((res) => {
@@ -1118,12 +1123,14 @@
           }
         ];
       });
+
+      //计算菜单栏高度
       this.$nextTick(function () {
         this.initScroll();
         setTimeout(() => {
           this.calculateHeight();
         }, 15);
-      })
+      });
     },
     computed: {
       //计算属性 计算当前菜谱是否滚动到对应侧边栏的高度区间
@@ -1190,6 +1197,13 @@
           height += item.clientHeight + 18;
           this.listHeight.push(height);
         }
+      },
+
+      //接收并传递选择菜品
+      addCart(target){
+        this.$nextTick(() => {
+          this.$refs.cart.drop(target);
+        });
       }
     }
   }

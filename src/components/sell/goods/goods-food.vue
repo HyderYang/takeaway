@@ -26,7 +26,7 @@
               </div>
 
               <div class="cartcontrol-wrapper">
-                <r-cartcontrol :food="food"></r-cartcontrol>
+                <r-cartcontrol :food="food" @cart-add="cartAdd"></r-cartcontrol>
               </div>
             </div>
           </li>
@@ -61,7 +61,11 @@
     },
     created() {
     },
-    methods: {},
+    methods: {
+      cartAdd(target){
+        this.$emit('add-cart', target);
+      }
+    },
     components: {
       'r-cartcontrol': cartcontrol
     }
